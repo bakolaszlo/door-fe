@@ -19,6 +19,7 @@ export class AppComponent {
   x: number = 0;
   y: number = 0;
   z: number = 0;
+  isModalShown: boolean = false;
 
   constructor(private sseService: SseService, private modalService: NgbModal) { }
 
@@ -37,7 +38,10 @@ export class AppComponent {
       }
       if(res.Alarm !== undefined){
         if(res.Alarm === true){
-          this.showIntruderAlert();
+          if(!this.isModalShown){
+            this.showIntruderAlert();
+            this.isModalShown = true;
+          }
           return;
         }
       }
