@@ -45,9 +45,12 @@ export class AppComponent {
           return;
         }
       }
-      // if(this.status != 'Authorize'){
+      
+      if(this.x == parseFloat(res.Longitude) && this.y == parseFloat(res.Latitude))
+      {
         this.status = res.Alarm;
-      //}
+      }
+
     });
   }
 
