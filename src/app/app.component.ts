@@ -18,6 +18,7 @@ export class AppComponent {
   status:string = 'Idle';
   x: number = 0;
   y: number = 0;
+  precision:number = 5;
   isModalShown: boolean = false;
 
   constructor(private sseService: SseService, private modalService: NgbModal) { }
@@ -44,8 +45,12 @@ export class AppComponent {
           return;
         }
       }
-      const decimalPoints = 4;
-      if(this.x == Math.round( parseFloat(res.Longitude) * (10**decimalPoints) + Number.EPSILON ) / (10**decimalPoints) && this.y == Math.round( parseFloat(res.Latitude) * (10**decimalPoints) + Number.EPSILON ) / (10**decimalPoints))
+      const decimalPoints = this.precision;
+      const latitude = this.roundFloatTo(parseFloat(res.Latitude), decimalPoints);
+      const longitude = this.roundFloatTo(parseFloat(res.Longitude), decimalPoints);
+
+      console.log(`Results: lat: ${latitude} lon: ${longitude}`);
+      if(this.x == latitude && this.y == longitude)
       {
         this.status = res.Alarm;
       }
@@ -53,6 +58,10 @@ export class AppComponent {
     });
   }
 
+  roundFloatTo(number: number, decimal:number) : number {
+    const decimalPoints = 10 ** decimal;
+    return Math.round(number * decimalPoints + Number.EPSILON) / decimalPoints;
+  }
   ngOnDestroy(): void {
     this.sseService.closeEventSource();
   }
