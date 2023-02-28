@@ -18,7 +18,6 @@ export class AppComponent {
   status:string = 'Idle';
   x: number = 0;
   y: number = 0;
-  z: number = 0;
   isModalShown: boolean = false;
 
   constructor(private sseService: SseService, private modalService: NgbModal) { }
@@ -45,8 +44,8 @@ export class AppComponent {
           return;
         }
       }
-      
-      if(this.x == parseFloat(res.Longitude) && this.y == parseFloat(res.Latitude))
+      const decimalPoints = 4;
+      if(this.x == Math.round( parseFloat(res.Longitude) * (10**decimalPoints) + Number.EPSILON ) / (10**decimalPoints) && this.y == Math.round( parseFloat(res.Latitude) * (10**decimalPoints) + Number.EPSILON ) / (10**decimalPoints))
       {
         this.status = res.Alarm;
       }
