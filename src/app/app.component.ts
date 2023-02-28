@@ -50,6 +50,7 @@ export class AppComponent {
       const longitude = this.roundFloatTo(parseFloat(res.Longitude), decimalPoints);
 
       console.log(`Results: lat: ${latitude} lon: ${longitude}`);
+      console.log(this.x == latitude && this.y == longitude);
       if(this.x == latitude && this.y == longitude)
       {
         this.status = res.Alarm;
