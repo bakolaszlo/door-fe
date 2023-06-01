@@ -1,36 +1,10 @@
 <div class="container">
   <div class="top">
-    <div class="variables">
-      <div class="variable-container">
-        <label>Precision:</label>
-        <input type="text" [(ngModel)]="precision" />
-      </div>
-      <div class="variable-container">
-        <label>x:</label>
-        <input type="text" [(ngModel)]="x" />
-      </div>
-      <div class="variable-container">
-        <label>y:</label>
-        <input type="text" [(ngModel)]="y" />
-      </div>
-    </div>
-  </div>
   <div class="middle">
     <div class="video-container">
       <video width="50%" id="video" autoplay loop muted controls>
         <source src="assets/video.mkv" type="video/mp4" />
       </video>
-    </div>
-    <div class="indicators">
-      <svg *ngIf="status === 'Authorize'" width="500" height="500" viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="50" fill="#48c774" />
-      </svg>
-      <svg *ngIf="status === 'Idle'" width="500" height="500" viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="50" fill="#a0aec0" />
-      </svg>
-      <svg *ngIf="status === 'Deny'" width="500" height="500" viewBox="0 0 120 120">
-        <circle cx="60" cy="60" r="50" fill="#f56565" />
-      </svg>
     </div>
   </div>
 </div>

@@ -28,7 +28,7 @@ export class AppComponent {
   }
 
   registerEventListener(): void {
-    this.event$ = this.sseService.getServerSentEvent('https://nextmindbe.azurewebsites.net/api/updates');
+    this.event$ = this.sseService.getServerSentEvent('http://localhost:7058/api/updates');
     this.event$.subscribe(event => {
       console.log(`Received event: ${event}`);
       var res = JSON.parse(event);
@@ -45,15 +45,23 @@ export class AppComponent {
           return;
         }
       }
-      const decimalPoints = this.precision;
-      const latitude = this.roundFloatTo(parseFloat(res.Latitude), decimalPoints);
-      const longitude = this.roundFloatTo(parseFloat(res.Longitude), decimalPoints);
+      // const decimalPoints = this.precision;
+      // const latitude = this.roundFloatTo(parseFloat(res.Latitude), decimalPoints);
+      // const longitude = this.roundFloatTo(parseFloat(res.Longitude), decimalPoints);
 
-      console.log(`Results: lat: ${latitude} lon: ${longitude}`);
-      console.log(this.x == latitude && this.y == longitude);
-      if(this.x == latitude && this.y == longitude)
+      // console.log(`Results: lat: ${latitude} lon: ${longitude}`);
+      // console.log(this.x == latitude && this.y == longitude);
+      // if(this.x == latitude && this.y == longitude)
       {
         this.status = res.Alarm;
+      }
+
+      if(this.status === 'Authorize'){
+        this.showAccessGrantedAlert();
+      }
+
+      if(this.status === 'Deny'){
+        this.showIntruderAlert();
       }
 
     });
@@ -72,8 +80,19 @@ export class AppComponent {
       backdrop: 'static',
       keyboard: false,
     });
-    modalRef.componentInstance.title = 'Intruder Alert';
-    modalRef.componentInstance.body = 'An intruder has been detected.';
+    modalRef.componentInstance.modalBackgroundClass = 'modal-background-red';
+    modalRef.componentInstance.title = 'Access revoked';
+    modalRef.componentInstance.description = 'You lost contact with your access token.';
+  }
+
+  showAccessGrantedAlert() {
+    const modalRef = this.modalService.open(IntruderAlertModalComponent, {
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.modalBackgroundClass = 'modal-background-green';
+    modalRef.componentInstance.title = 'Access granted!';
+    modalRef.componentInstance.description = 'You can now enter the room.';
   }
   
 }
